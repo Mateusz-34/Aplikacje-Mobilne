@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText dataInput;
     private Button saveButton;
-    private Button loadButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         dataInput = findViewById(R.id.dataInput);
         saveButton = findViewById(R.id.saveButton);
-        loadButton = findViewById(R.id.loadButton);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,17 +37,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
-                String savedData = prefs.getString(DATA_KEY, "Brak zapisanych danych.");
+        String savedData = prefs.getString(DATA_KEY, "Brak zapisanych danych.");
 
-                dataInput.setText(savedData);
+        dataInput.setText(savedData);
 
-                Toast.makeText(MainActivity.this, "Dane wczytane!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        Toast.makeText(MainActivity.this, "Dane wczytane!", Toast.LENGTH_SHORT).show();
     }
 }
