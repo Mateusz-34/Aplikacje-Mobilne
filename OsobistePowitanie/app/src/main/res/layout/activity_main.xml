@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Osobiste Powitanie"
+        android:textStyle="bold"
+        android:textSize="75px"
+        android:paddingBottom="20px"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wpisz swoje imię poniżej:"
+        android:paddingBottom="20px"/>
+
+    <EditText
+        android:id="@+id/editTextImie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Twoje imie"
+        android:inputType="text"
+        android:paddingBottom="20px" />
+
+    <Button
+        android:id="@+id/buttonPowitanie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Przywitaj mnie!" />
+
+</LinearLayout>
