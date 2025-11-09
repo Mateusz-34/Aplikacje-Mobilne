@@ -13,8 +13,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
-    private EditText noteTitleInput, noteInput, deleteIdInput;
-    private Button saveButton, deleteButton;
+    private EditText noteTitleInput, noteInput, deleteIdInput, updateIdInput, updateNoteInput;
+    private Button saveButton, deleteButton, updateButton;
     private TextView notesDisplay;
 
 
@@ -31,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
         notesDisplay = findViewById(R.id.notesDisplay);
         deleteIdInput = findViewById(R.id.deleteIdInput);
         deleteButton = findViewById(R.id.deleteButton);
+        updateIdInput = findViewById(R.id.updateIdInput);
+        updateNoteInput = findViewById(R.id.updateNoteInput);
+        updateButton = findViewById(R.id.updateButton);
+
 
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
                 deleteNote();
             }
         });
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateNote();
+            }
+        });
+
         loadNotes();
     }
 
@@ -87,6 +99,28 @@ public class MainActivity extends AppCompatActivity {
         deleteIdInput.setText("");
         loadNotes();
     }
+
+    private void updateNote() {
+        String idText = updateIdInput.getText().toString().trim();
+        String newNoteText = updateNoteInput.getText().toString().trim();
+
+        if (idText.isEmpty() || newNoteText.isEmpty()) {
+            return;
+        }
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COLUMN_NOTE, newNoteText);
+
+        int rowsUpdated = db.delete(DatabaseHelper.TABLE_NOTES, DatabaseHelper.COLUMN_ID + " = ?", new String[]{idText});
+
+        db.close();
+        updateIdInput.setText("");
+        updateNoteInput.setText("");
+        loadNotes();
+    }
+
 
     private void loadNotes() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();

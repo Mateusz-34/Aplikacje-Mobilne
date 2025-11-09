@@ -14,8 +14,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
-        android:hint="noteTitle"
-        android:gravity="center"/>
+        android:hint="Napisz tytuł notatki"/>
 
     <EditText
         android:id="@+id/noteInput"
@@ -23,14 +22,13 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
-        android:hint="noteInput"
-        android:gravity="center"/>
+        android:hint="Napisz treść notatki"/>
 
     <Button
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Dodaj notatkę"
         android:gravity="center"/>
 
     <TextView
@@ -44,16 +42,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Podaj ID notatki do usunięcia"
-        android:inputType="number"
-        android:layout_marginTop="8dp"
-        android:padding="8dp" />
+        android:inputType="number"/>
 
     <Button
         android:id="@+id/deleteButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Usuń notatkę"
-        android:layout_marginTop="4dp" />
+        android:text="Usuń notatkę"/>
 
+    <EditText
+        android:id="@+id/updateIdInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Podaj ID notatki do aktualizacji"
+        android:inputType="number"/>
+
+    <EditText
+        android:id="@+id/updateNoteInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nowa treść notatki"
+        android:inputType="text"/>
+
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aktualizuj notatkę"/>
 
 </LinearLayout>
