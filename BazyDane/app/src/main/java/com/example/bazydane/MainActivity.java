@@ -13,9 +13,10 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
-    private EditText noteTitleInput, noteInput;
-    private Button saveButton;
+    private EditText noteTitleInput, noteInput, deleteIdInput;
+    private Button saveButton, deleteButton;
     private TextView notesDisplay;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +29,21 @@ public class MainActivity extends AppCompatActivity {
         noteInput = findViewById(R.id.noteInput);
         saveButton = findViewById(R.id.saveButton);
         notesDisplay = findViewById(R.id.notesDisplay);
+        deleteIdInput = findViewById(R.id.deleteIdInput);
+        deleteButton = findViewById(R.id.deleteButton);
+
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addNote();
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteNote();
             }
         });
         loadNotes();
@@ -61,6 +72,22 @@ public class MainActivity extends AppCompatActivity {
         loadNotes();
     }
 
+    private void deleteNote() {
+        String idText = deleteIdInput.getText().toString().trim();
+
+        if (idText.isEmpty()) {
+            return;
+        }
+
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        int deletedRows = db.delete(DatabaseHelper.TABLE_NOTES, DatabaseHelper.COLUMN_ID + " = ?", new String[]{idText});
+
+        db.close();
+        deleteIdInput.setText("");
+        loadNotes();
+    }
+
     private void loadNotes() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -74,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
 
         StringBuilder notesText  = new StringBuilder();
         while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
+            notesText.append("ID: ").append(id).append("\n");
+
             String noteTitle = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TITLE));
             notesText.append("Tytuł notatki: ").append(noteTitle).append("\n");
 

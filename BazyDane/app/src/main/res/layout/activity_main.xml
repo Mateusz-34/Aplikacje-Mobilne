@@ -33,11 +33,27 @@
         android:text="Button"
         android:gravity="center"/>
 
-
     <TextView
         android:id="@+id/notesDisplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/deleteIdInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Podaj ID notatki do usunięcia"
+        android:inputType="number"
+        android:layout_marginTop="8dp"
+        android:padding="8dp" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Usuń notatkę"
+        android:layout_marginTop="4dp" />
+
 
 </LinearLayout>
