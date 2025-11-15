@@ -10,12 +10,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
-    private EditText noteTitleInput, noteInput, deleteIdInput, updateIdInput, updateNoteInput;
-    private Button saveButton, deleteButton, updateButton;
-    private TextView notesDisplay;
+    private EditText noteInput;
+    private Button saveButton;
+    private RecyclerView notesRecyclerView;
+    private NoteAdapter adapter;
+    private List<Note> noteList;
 
 
     @Override
@@ -24,18 +33,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         dbHelper = new DatabaseHelper(this);
-
-        noteTitleInput = findViewById(R.id.noteTitleInput);
         noteInput = findViewById(R.id.noteInput);
         saveButton = findViewById(R.id.saveButton);
-        notesDisplay = findViewById(R.id.notesDisplay);
-        deleteIdInput = findViewById(R.id.deleteIdInput);
-        deleteButton = findViewById(R.id.deleteButton);
-        updateIdInput = findViewById(R.id.updateIdInput);
-        updateNoteInput = findViewById(R.id.updateNoteInput);
-        updateButton = findViewById(R.id.updateButton);
+        notesRecyclerView = findViewById(R.id.notesRecyclerView);
 
+        noteList = new ArrayList<>();
+        adapter = new NoteAdapter(noteList);
 
+        notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        notesRecyclerView.setAdapter(adapter);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,109 +50,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteNote();
-            }
-        });
-
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateNote();
-            }
-        });
-
         loadNotes();
     }
 
     private void addNote() {
-        String title = noteTitleInput.getText().toString();
         String note = noteInput.getText().toString();
 
-        if (title.isEmpty() || note.isEmpty()) {
+        if (note.isEmpty()) {
             return;
         }
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.COLUMN_TITLE, title);
         values.put(DatabaseHelper.COLUMN_NOTE, note);
 
         db.insert(DatabaseHelper.TABLE_NOTES, null, values);
         db.close();
 
-        noteTitleInput.setText("");
         noteInput.setText("");
 
         loadNotes();
     }
 
-    private void deleteNote() {
-        String idText = deleteIdInput.getText().toString().trim();
-
-        if (idText.isEmpty()) {
-            return;
-        }
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        int deletedRows = db.delete(DatabaseHelper.TABLE_NOTES, DatabaseHelper.COLUMN_ID + " = ?", new String[]{idText});
-
-        db.close();
-        deleteIdInput.setText("");
-        loadNotes();
-    }
-
-    private void updateNote() {
-        String idText = updateIdInput.getText().toString().trim();
-        String newNoteText = updateNoteInput.getText().toString().trim();
-
-        if (idText.isEmpty() || newNoteText.isEmpty()) {
-            return;
-        }
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.COLUMN_NOTE, newNoteText);
-
-        int rowsUpdated = db.delete(DatabaseHelper.TABLE_NOTES, DatabaseHelper.COLUMN_ID + " = ?", new String[]{idText});
-
-        db.close();
-        updateIdInput.setText("");
-        updateNoteInput.setText("");
-        loadNotes();
-    }
-
-
     private void loadNotes() {
+        noteList.clear();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        String[] projection = {DatabaseHelper.COLUMN_ID, DatabaseHelper.COLUMN_TITLE, DatabaseHelper.COLUMN_NOTE};
+        Cursor cursor = db.query(DatabaseHelper.TABLE_NOTES,
+                null, null, null, null, null, null);
 
-        Cursor cursor = db.query(
-                DatabaseHelper.TABLE_NOTES,
-                projection,
-                null, null, null, null, null
-        );
-
-        StringBuilder notesText  = new StringBuilder();
         while (cursor.moveToNext()) {
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
-            notesText.append("ID: ").append(id).append("\n");
-
-            String noteTitle = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TITLE));
-            notesText.append("Tytuł notatki: ").append(noteTitle).append("\n");
-
-            String noteText = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTE));
-            notesText.append("Treść notatki: ").append(noteText).append("\n\n");
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
+            String text = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTE));
+            noteList.add(new Note(id, text));
         }
         cursor.close();
         db.close();
 
-        notesDisplay.setText(notesText.toString());
+        adapter.notifyDataSetChanged();
     }
 }

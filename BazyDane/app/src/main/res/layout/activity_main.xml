@@ -9,14 +9,6 @@
     android:gravity="center">
 
     <EditText
-        android:id="@+id/noteTitleInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Napisz tytuł notatki"/>
-
-    <EditText
         android:id="@+id/noteInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,43 +23,10 @@
         android:text="Dodaj notatkę"
         android:gravity="center"/>
 
-    <TextView
-        android:id="@+id/notesDisplay"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"/>
-
-    <EditText
-        android:id="@+id/deleteIdInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Podaj ID notatki do usunięcia"
-        android:inputType="number"/>
-
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Usuń notatkę"/>
-
-    <EditText
-        android:id="@+id/updateIdInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Podaj ID notatki do aktualizacji"
-        android:inputType="number"/>
-
-    <EditText
-        android:id="@+id/updateNoteInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nowa treść notatki"
-        android:inputType="text"/>
-
-    <Button
-        android:id="@+id/updateButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Aktualizuj notatkę"/>
 
 </LinearLayout>

@@ -7,17 +7,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "notes.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     public static final String TABLE_NOTES = "notes";
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_NOTE = "note";
 
     private static final String TABLE_CREATE =
             "CREATE TABLE " + TABLE_NOTES + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_TITLE + " TEXT NOT NULL, " +
                     COLUMN_NOTE + " TEXT NOT NULL);";
 
     public DatabaseHelper(Context context) {
