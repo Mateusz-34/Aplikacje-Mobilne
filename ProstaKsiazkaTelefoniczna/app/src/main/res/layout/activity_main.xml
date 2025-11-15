@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -13,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Imię i nazwisko"
-        android:inputType="text"/>
+        android:inputType="textPersonName"/>
 
     <EditText
         android:id="@+id/phoneInput"
@@ -28,10 +27,9 @@
         android:layout_height="wrap_content"
         android:text="Zapisz kontakt"/>
 
-    <TextView
-        android:id="@+id/contactsDisplay"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Contacts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Brak kontaktów"/>
-
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 </LinearLayout>
