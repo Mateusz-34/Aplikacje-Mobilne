@@ -81,8 +81,17 @@ public class MainActivity extends AppCompatActivity {
         noteList.clear();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.query(DatabaseHelper.TABLE_NOTES,
-                null, null, null, null, null, null);
+        Cursor cursor = db.query(
+                DatabaseHelper.TABLE_NOTES,
+                null,
+                null,
+                null,
+                null,
+                null,
+                DatabaseHelper.COLUMN_ID + " DESC"
+        );
+
+
 
         while (cursor.moveToNext()) {
             long id = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
