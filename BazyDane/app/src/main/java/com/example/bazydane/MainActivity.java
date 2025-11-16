@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView notesRecyclerView;
     private NoteAdapter adapter;
     private List<Note> noteList;
+    private TextView emptyMessage;
+
 
 
     @Override
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         noteInput = findViewById(R.id.noteInput);
         saveButton = findViewById(R.id.saveButton);
         notesRecyclerView = findViewById(R.id.notesRecyclerView);
+        emptyMessage = findViewById(R.id.emptyMessage);
+
 
         noteList = new ArrayList<>();
         adapter = new NoteAdapter(noteList, this);
@@ -85,11 +89,21 @@ public class MainActivity extends AppCompatActivity {
             String text = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOTE));
             noteList.add(new Note(id, text));
         }
+
         cursor.close();
         db.close();
 
         adapter.notifyDataSetChanged();
+
+        if (noteList.isEmpty()) {
+            notesRecyclerView.setVisibility(View.GONE);
+            emptyMessage.setVisibility(View.VISIBLE);
+        } else {
+            notesRecyclerView.setVisibility(View.VISIBLE);
+            emptyMessage.setVisibility(View.GONE);
+        }
     }
+
 
     public void deleteNote(long id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
