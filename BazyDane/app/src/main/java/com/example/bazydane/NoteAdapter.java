@@ -3,7 +3,6 @@ package com.example.bazydane;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,10 +12,12 @@ import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
-    private List<Note>noteList;
+    private List<Note> noteList;
+    private MainActivity activity;
 
-    public NoteAdapter(List<Note> noteList) {
+    public NoteAdapter(List<Note> noteList, MainActivity activity) {
         this.noteList = noteList;
+        this.activity = activity;
     }
 
     @NonNull
@@ -33,14 +34,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         holder.noteID.setText("ID: " + currentNote.getId());
         holder.noteText.setText("Treść: " + currentNote.getText());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(holder.itemView.getContext(), "ID: " + currentNote.getId() + "\n" + "Treść: " + currentNote.getText(), Toast.LENGTH_SHORT).show();
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Toast.makeText(holder.itemView.getContext(), "Usunietono notatkę o ID: " + currentNote.getId(), Toast.LENGTH_SHORT).show();
+
+            activity.deleteNote(currentNote.getId());
         });
     }
-
 
     @Override
     public int getItemCount() {

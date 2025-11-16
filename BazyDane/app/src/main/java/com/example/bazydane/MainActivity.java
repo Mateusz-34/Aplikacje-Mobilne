@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         notesRecyclerView = findViewById(R.id.notesRecyclerView);
 
         noteList = new ArrayList<>();
-        adapter = new NoteAdapter(noteList);
+        adapter = new NoteAdapter(noteList, this);
 
         notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         notesRecyclerView.setAdapter(adapter);
@@ -89,5 +89,15 @@ public class MainActivity extends AppCompatActivity {
         db.close();
 
         adapter.notifyDataSetChanged();
+    }
+
+    public void deleteNote(long id) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(DatabaseHelper.TABLE_NOTES,
+                DatabaseHelper.COLUMN_ID + " = ?",
+                new String[]{String.valueOf(id)});
+        db.close();
+
+        loadNotes();
     }
 }
