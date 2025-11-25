@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
     private Spinner fromCurrencySpinner;
     private Spinner toCurrencySpinner;
@@ -67,22 +69,15 @@ public class MainActivity extends AppCompatActivity {
         String fromCurrency = fromCurrencySpinner.getSelectedItem().toString();
         String toCurrency = toCurrencySpinner.getSelectedItem().toString();
 
-        double EUR = 4.30;
-        double USD = 4.00;
-        double GBP = 5.00;
+        HashMap<String, Double> rates = new HashMap<>();
+        rates.put("PLN", 1.0);
+        rates.put("EUR", 4.30);
+        rates.put("USD", 4.00);
+        rates.put("GBP", 5.00);
 
-        double inPln = 0;
-        double result = 0;
+        double inPln = amount * rates.get(fromCurrency);
 
-        if (fromCurrency.equals("PLN")) inPln = amount;
-        else if (fromCurrency.equals("EUR")) inPln = amount * EUR;
-        else if (fromCurrency.equals("USD")) inPln = amount * USD;
-        else if (fromCurrency.equals("GBP")) inPln = amount * GBP;
-
-        if (toCurrency.equals("PLN")) result = inPln;
-        else if (toCurrency.equals("EUR")) result = inPln / EUR;
-        else if (toCurrency.equals("USD")) result = inPln / USD;
-        else if (toCurrency.equals("GBP")) result = inPln / GBP;
+        double result = inPln / rates.get(toCurrency);
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("fromPos", fromCurrencySpinner.getSelectedItemPosition());
@@ -91,4 +86,5 @@ public class MainActivity extends AppCompatActivity {
 
         resultText.setText(String.format("%.2f %s", result, toCurrency));
     }
+
 }
