@@ -1,5 +1,6 @@
 package com.example.przelicznikwalut;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -9,11 +10,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     private Spinner fromCurrencySpinner;
@@ -21,14 +18,16 @@ public class MainActivity extends AppCompatActivity {
     private Button convertButton;
     private EditText amountInput;
     private TextView resultText;
+    private SharedPreferences prefs;
 
     private final String[] currencies = {"PLN", "EUR", "USD", "GBP"};
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        prefs = getSharedPreferences("waluty", MODE_PRIVATE);
 
         fromCurrencySpinner = findViewById(R.id.fromCurrencySpinner);
         toCurrencySpinner = findViewById(R.id.toCurrencySpinner);
@@ -42,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
         fromCurrencySpinner.setAdapter(adapter);
         toCurrencySpinner.setAdapter(adapter);
 
+        int savedFrom = prefs.getInt("fromPos", 0);
+        int savedTo = prefs.getInt("toPos", 0);
+        fromCurrencySpinner.setSelection(savedFrom);
+        toCurrencySpinner.setSelection(savedTo);
+
         convertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void convertCurrency() {
         String amountStr = amountInput.getText().toString();
 
@@ -78,6 +83,11 @@ public class MainActivity extends AppCompatActivity {
         else if (toCurrency.equals("EUR")) result = inPln / EUR;
         else if (toCurrency.equals("USD")) result = inPln / USD;
         else if (toCurrency.equals("GBP")) result = inPln / GBP;
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("fromPos", fromCurrencySpinner.getSelectedItemPosition());
+        editor.putInt("toPos", toCurrencySpinner.getSelectedItemPosition());
+        editor.apply();
 
         resultText.setText(String.format("%.2f %s", result, toCurrency));
     }
