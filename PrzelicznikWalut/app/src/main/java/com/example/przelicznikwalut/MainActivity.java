@@ -79,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { convertCurrency(); }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                convertCurrency();
+            }
             @Override
             public void afterTextChanged(Editable s) {}
         });
@@ -87,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
         Button convertButton = findViewById(R.id.convertButton);
         convertButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { convertCurrency(); }
+            public void onClick(View v) {
+                convertCurrency();
+            }
         });
     }
 
@@ -102,7 +106,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void convertCurrency() {
         String amountStr = amountInput.getText().toString();
-        if (amountStr.isEmpty()) { resultText.setText(""); return; }
+        if (amountStr.isEmpty()) {
+            resultText.setText("");
+            return;
+        }
 
         double amount;
         try { amount = Double.parseDouble(amountStr); }
