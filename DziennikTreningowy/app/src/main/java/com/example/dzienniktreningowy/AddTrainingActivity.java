@@ -82,6 +82,16 @@ public class AddTrainingActivity extends AppCompatActivity {
             return;
         }
 
+        if (reps <= 0) {
+            Toast.makeText(this, "Liczba powtórzeń musi być większa od 0", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (duration <= 0) {
+            Toast.makeText(this, "Czas trwania musi być większy od 0", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String difficulty = spinnerDifficulty.getSelectedItem().toString();
 
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
@@ -103,5 +113,4 @@ public class AddTrainingActivity extends AppCompatActivity {
             finish();
         }
     }
-
 }
