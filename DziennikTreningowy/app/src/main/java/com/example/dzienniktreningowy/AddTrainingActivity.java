@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class AddTrainingActivity extends AppCompatActivity {
 
     private EditText editName, editReps, editDuration;
@@ -45,14 +49,23 @@ public class AddTrainingActivity extends AppCompatActivity {
             return;
         }
 
-        int reps = Integer.parseInt(repsString);
-        int duration = Integer.parseInt(durationString);
+        int reps, duration;
+        try {
+            reps = Integer.parseInt(repsString);
+            duration = Integer.parseInt(durationString);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Niepoprawne liczby", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(TrainingDbHelper.COLUMN_NAME, name);
         values.put(TrainingDbHelper.COLUMN_REPS, reps);
         values.put(TrainingDbHelper.COLUMN_DURATION, duration);
+        values.put(TrainingDbHelper.COLUMN_DATE, currentDate);
 
         long newRowId = db.insert(TrainingDbHelper.TABLE_NAME, null, values);
 
