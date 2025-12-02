@@ -16,7 +16,7 @@ import java.util.Locale;
 public class AddTrainingActivity extends AppCompatActivity {
 
     private EditText editName, editReps, editDuration;
-    private Button buttonSave;
+    private Button buttonSave, buttonCancel;
     private TrainingDbHelper dbHelper;
 
     @Override
@@ -29,6 +29,7 @@ public class AddTrainingActivity extends AppCompatActivity {
         editName = findViewById(R.id.editExerciseName);
         editReps = findViewById(R.id.editRepsCount);
         editDuration = findViewById(R.id.editDurationCount);
+
         buttonSave = findViewById(R.id.buttonSave);
 
         buttonSave.setOnClickListener(new View.OnClickListener() {
@@ -37,6 +38,16 @@ public class AddTrainingActivity extends AppCompatActivity {
                 saveTraining();
             }
         });
+
+        buttonCancel = findViewById(R.id.buttonCancel);
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void saveTraining() {
