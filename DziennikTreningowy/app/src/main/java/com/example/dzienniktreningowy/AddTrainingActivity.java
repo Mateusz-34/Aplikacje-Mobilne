@@ -5,8 +5,10 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -18,6 +20,8 @@ public class AddTrainingActivity extends AppCompatActivity {
     private EditText editName, editReps, editDuration;
     private Button buttonSave, buttonCancel;
     private TrainingDbHelper dbHelper;
+    private Spinner spinnerDifficulty;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,15 @@ public class AddTrainingActivity extends AppCompatActivity {
             }
         });
 
+        spinnerDifficulty = findViewById(R.id.spinnerDifficulty);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.difficulty_array,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDifficulty.setAdapter(adapter);
     }
 
     private void saveTraining() {
@@ -69,6 +82,8 @@ public class AddTrainingActivity extends AppCompatActivity {
             return;
         }
 
+        String difficulty = spinnerDifficulty.getSelectedItem().toString();
+
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -77,6 +92,7 @@ public class AddTrainingActivity extends AppCompatActivity {
         values.put(TrainingDbHelper.COLUMN_REPS, reps);
         values.put(TrainingDbHelper.COLUMN_DURATION, duration);
         values.put(TrainingDbHelper.COLUMN_DATE, currentDate);
+        values.put(TrainingDbHelper.COLUMN_DIFFICULTY, difficulty);
 
         long newRowId = db.insert(TrainingDbHelper.TABLE_NAME, null, values);
 
@@ -87,4 +103,5 @@ public class AddTrainingActivity extends AppCompatActivity {
             finish();
         }
     }
+
 }

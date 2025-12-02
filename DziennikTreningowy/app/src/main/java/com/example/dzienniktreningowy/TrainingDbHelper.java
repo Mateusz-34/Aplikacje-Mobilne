@@ -15,6 +15,8 @@ public class TrainingDbHelper extends SQLiteOpenHelper {
     public static final String COLUMN_REPS = "reps";
     public static final String COLUMN_DURATION = "duration";
     public static final String COLUMN_DATE = "date";
+    public static final String COLUMN_DIFFICULTY = "difficulty";
+
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + TABLE_NAME + " (" +
@@ -22,8 +24,8 @@ public class TrainingDbHelper extends SQLiteOpenHelper {
                     COLUMN_NAME + " TEXT NOT NULL," +
                     COLUMN_REPS + " INTEGER," +
                     COLUMN_DURATION + " INTEGER," +
-                    COLUMN_DATE + " TEXT NOT NULL);";
-
+                    COLUMN_DATE + " TEXT NOT NULL," +
+                    COLUMN_DIFFICULTY + " TEXT NOT NULL);";
 
     public TrainingDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
