@@ -9,28 +9,11 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wybierz datę wizyty:"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <!-- Komponent kalendarza -->
         <DatePicker
             android:id="@+id/datePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wybierz godzinę:"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"/>
-
-        <!-- Komponent zegara -->
         <TimePicker
             android:id="@+id/timePicker"
             android:layout_width="match_parent"
@@ -40,7 +23,7 @@
             android:id="@+id/btnConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Zatwierdź Termin"
+            android:text="Zarezerwuj"
             android:layout_marginTop="24dp" />
 
         <TextView
