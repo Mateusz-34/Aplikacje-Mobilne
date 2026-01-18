@@ -15,23 +15,17 @@
         android:layout_marginBottom="30dp"/>
 
     <Button
-        android:id="@+id/btnDateChanger"
+        android:id="@+id/btnPickDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Zmień datę"
-        android:padding="20dp"/>
-
-    <Button
-        android:id="@+id/btnTimeChanger"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zmień czas"
+        android:text="WYBIERZ TERMIN SPOTKANIA"
         android:padding="20dp"/>
 
     <TextView
-        android:id="@+id/tvDateTime"
+        android:id="@+id/tvSelectedDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Nie wybrano terminu"
         android:textSize="18sp"
         android:layout_marginTop="30dp"/>
 

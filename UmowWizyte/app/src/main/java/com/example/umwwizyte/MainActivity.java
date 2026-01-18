@@ -9,79 +9,89 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnDateChanger;
-    private Button btnTimeChanger;
-    private TextView tvDateTime;
+    private Button btnPickDateTime;
+    private TextView tvSelectedDateTime;
 
-    private Calendar calendar;
+    private int selectedYear, selectedMonth, selectedDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnDateChanger = findViewById(R.id.btnDateChanger);
-        btnTimeChanger = findViewById(R.id.btnTimeChanger);
-        tvDateTime = findViewById(R.id.tvDateTime);
+        btnPickDateTime = findViewById(R.id.btnPickDateTime);
+        tvSelectedDateTime = findViewById(R.id.tvSelectedDateTime);
 
-        calendar = Calendar.getInstance();
-        updateText();
-
-        btnDateChanger.setOnClickListener(new View.OnClickListener() {
+        btnPickDateTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePicker();
             }
         });
-
-        btnTimeChanger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePicker();
-            }
-        });
     }
 
     private void showDatePicker() {
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, month);
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        updateText();
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        selectedYear = year;
+                        selectedMonth = monthOfYear;
+                        selectedDay = dayOfMonth;
+                        showTimePicker();
                     }
                 },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+                year, month, day
         );
+
         datePickerDialog.show();
     }
 
     private void showTimePicker() {
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        calendar.set(Calendar.MINUTE, minute);
-                        updateText();
+
+                        LocalDateTime dateTime = LocalDateTime.of(
+                                selectedYear,
+                                selectedMonth + 1,
+                                selectedDay,
+                                hourOfDay,
+                                minute
+                        );
+
+                        if (dateTime.isBefore(LocalDateTime.now())) {
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    "Nie można cofnąć czasu!",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        } else {
+                            DateTimeFormatter formatter =
+                                    DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
+                            tvSelectedDateTime.setText("Umówiono: " + dateTime.format(formatter));
+                        }
                     }
                 },
-                calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE),
-                true
+                hour, minute, true
         );
-        timePickerDialog.show();
-    }
 
-    private void updateText() {
-        String text = String.format("%02d.%02d.%04d %02d:%02d", calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-        tvDateTime.setText("Aktualna data i godzina: " + text);
+        timePickerDialog.show();
     }
 }
