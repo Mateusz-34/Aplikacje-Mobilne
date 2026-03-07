@@ -4,16 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView infoText;
+    private View mainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         infoText = findViewById(R.id.infoText);
+        mainLayout = findViewById(R.id.mainLayout);
     }
 
     @Override
@@ -55,6 +59,18 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (id == R.id.action_exit) {
             finish();
+            return true;
+        }
+        else if (id == R.id.action_red) {
+            mainLayout.setBackgroundColor(Color.RED);
+            return true;
+        }
+        else if (id == R.id.action_green) {
+            mainLayout.setBackgroundColor(Color.GREEN);
+            return true;
+        }
+        else if (id == R.id.action_blue) {
+            mainLayout.setBackgroundColor(Color.BLUE);
             return true;
         }
 

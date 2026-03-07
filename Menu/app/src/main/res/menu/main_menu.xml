@@ -23,4 +23,19 @@
         android:icon="@drawable/baseline_favorite_24"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_red"
+        android:title="Czerwony"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_green"
+        android:title="Zielony"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_blue"
+        android:title="Niebieski"
+        app:showAsAction="never" />
+
 </menu>
