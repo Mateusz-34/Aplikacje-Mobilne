@@ -58,4 +58,10 @@
         android:title="Duża czcionka"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_show_image"
+        android:title="Pokaż obrazek"
+        android:checkable="true"
+        app:showAsAction="never" />
+
 </menu>

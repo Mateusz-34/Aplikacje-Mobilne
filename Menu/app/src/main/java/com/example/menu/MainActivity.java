@@ -3,7 +3,6 @@ package com.example.menu;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -20,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView infoText;
     private TextView counterText;
     private View mainLayout;
+    private View myImageView;
     int counter = 0;
 
     @Override
@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
         infoText = findViewById(R.id.infoText);
         counterText = findViewById(R.id.counterText);
         mainLayout = findViewById(R.id.mainLayout);
+        myImageView = findViewById(R.id.myImageView);
 
         Button button = findViewById(R.id.button);
-
         button.setOnClickListener(v -> {
             counter++;
             counterText.setText(String.valueOf(counter));
@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
@@ -107,6 +106,16 @@ public class MainActivity extends AppCompatActivity {
 
         else if (id == R.id.action_large) {
             infoText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+            return true;
+        }
+
+        else if (id == R.id.action_show_image) {
+            item.setChecked(!item.isChecked());
+            if (item.isChecked()) {
+                myImageView.setVisibility(View.VISIBLE);
+            } else {
+                myImageView.setVisibility(View.GONE);
+            }
             return true;
         }
 
