@@ -38,4 +38,9 @@
         android:title="Niebieski"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_reset"
+        android:title="Resetuj"
+        app:showAsAction="never" />
+
 </menu>
