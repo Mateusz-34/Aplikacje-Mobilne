@@ -43,4 +43,19 @@
         android:title="Resetuj"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_small"
+        android:title="Mała czcionka"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_medium"
+        android:title="Średnia czcionka"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_large"
+        android:title="Duża czcionka"
+        app:showAsAction="never" />
+
 </menu>

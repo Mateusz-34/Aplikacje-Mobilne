@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         mainLayout = findViewById(R.id.mainLayout);
 
         Button button = findViewById(R.id.button);
+
         button.setOnClickListener(v -> {
             counter++;
             counterText.setText(String.valueOf(counter));
@@ -49,39 +51,62 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
             Toast.makeText(this, "Wybrano Ustawienia", Toast.LENGTH_SHORT).show();
             return true;
         }
+
         else if (id == R.id.action_info) {
             infoText.setText("Aplikacja stworzona przez: Jana Kowalskiego");
             return true;
         }
+
         else if (id == R.id.action_favorite) {
             Toast.makeText(this, "Dodano do ulubionych", Toast.LENGTH_SHORT).show();
             return true;
         }
+
         else if (id == R.id.action_exit) {
             finish();
             return true;
         }
+
         else if (id == R.id.action_red) {
             mainLayout.setBackgroundColor(Color.RED);
             return true;
         }
+
         else if (id == R.id.action_green) {
             mainLayout.setBackgroundColor(Color.GREEN);
             return true;
         }
+
         else if (id == R.id.action_blue) {
             mainLayout.setBackgroundColor(Color.BLUE);
             return true;
         }
+
         else if (id == R.id.action_reset) {
             counter = 0;
             counterText.setText("0");
+            return true;
+        }
+
+        else if (id == R.id.action_small) {
+            infoText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            return true;
+        }
+
+        else if (id == R.id.action_medium) {
+            infoText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            return true;
+        }
+
+        else if (id == R.id.action_large) {
+            infoText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
             return true;
         }
 
