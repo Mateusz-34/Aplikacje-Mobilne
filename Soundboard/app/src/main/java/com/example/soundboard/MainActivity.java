@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         VideoView videoView = findViewById(R.id.videoView);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.sample_music);
+        mediaPlayer.setLooping(true);
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 mediaPlayer.stop();
                 mediaPlayer.release();
                 mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.sample_music);
+                mediaPlayer.setLooping(true);
             }
         });
 
