@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +25,13 @@ public class MainActivity extends AppCompatActivity {
         VideoView videoView = findViewById(R.id.videoView);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.sample_music);
-        mediaPlayer.setLooping(true);
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                Toast.makeText(MainActivity.this, "Odtwarzanie zakończone", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
                 mediaPlayer.stop();
                 mediaPlayer.release();
                 mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.sample_music);
-                mediaPlayer.setLooping(true);
             }
         });
 
