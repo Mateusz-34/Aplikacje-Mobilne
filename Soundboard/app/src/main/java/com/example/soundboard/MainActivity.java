@@ -11,47 +11,48 @@ import android.widget.VideoView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnPlaySound;
-    private VideoView videoView;
-    private MediaPlayer mediaPlayer;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnPlaySound = findViewById(R.id.btnPlaySound);
-        videoView = findViewById(R.id.videoView);
+        Button btnPlay = findViewById(R.id.btnPlay);
+        Button btnPause = findViewById(R.id.btnPause);
+        Button btnStop = findViewById(R.id.btnStop);
+        VideoView videoView = findViewById(R.id.videoView);
 
-        btnPlaySound.setOnClickListener(new View.OnClickListener() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.sample_music);
+
+        btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (mediaPlayer != null) {
-                    mediaPlayer.release();
-                }
-                mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.sample_music);
-                if (mediaPlayer != null) {
-                    mediaPlayer.start();
-                }
+            public void onClick(View view) {
+                mediaPlayer.start();
             }
         });
 
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.sample_video;
-        Uri uri = Uri.parse(videoPath);
+        btnPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaPlayer.pause();
+            }
+        });
 
-        videoView.setVideoURI(uri);
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.sample_music);
+            }
+        });
 
-        MediaController mediaController = new MediaController(this);
-        videoView.setMediaController(mediaController);
-        mediaController.setAnchorView(videoView);
-    }
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.sample_video;
+        videoView.setVideoURI(Uri.parse(path));
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
+        MediaController controller = new MediaController(this);
+        videoView.setMediaController(controller);
+        controller.setAnchorView(videoView);
     }
 }
