@@ -41,6 +41,14 @@ public class MainActivity extends AppCompatActivity {
                 loadNote();
             }
         });
+
+        loadNote();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveNote();
     }
 
     private void saveNote() {
