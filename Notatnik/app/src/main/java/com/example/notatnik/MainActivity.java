@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextNote;
     private Button btnSave;
     private Button btnLoad;
+    private Button btnClear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,19 +28,15 @@ public class MainActivity extends AppCompatActivity {
         editTextNote = findViewById(R.id.editTextNote);
         btnSave = findViewById(R.id.btnSave);
         btnLoad = findViewById(R.id.btnLoad);
+        btnClear = findViewById(R.id.btnClear);
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveNote();
-            }
-        });
+        btnSave.setOnClickListener(v -> saveNote());
+        btnLoad.setOnClickListener(v -> loadNote());
 
-        btnLoad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadNote();
-            }
+        btnClear.setOnClickListener(v -> {
+            editTextNote.setText("");
+            saveNote();
+            Toast.makeText(this, "Plik i pole tekstowe wyczyszczone", Toast.LENGTH_SHORT).show();
         });
 
         loadNote();
@@ -53,53 +50,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveNote() {
         String textToSave = editTextNote.getText().toString();
-        FileOutputStream fos = null;
-
-        try {
-            fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
+        try (FileOutputStream fos = openFileOutput(FILE_NAME, MODE_PRIVATE)) {
             fos.write(textToSave.getBytes());
             Toast.makeText(this, "Zapisano do pliku " + FILE_NAME, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Błąd zapisu!", Toast.LENGTH_SHORT).show();
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
     private void loadNote() {
-        FileInputStream fis = null;
         StringBuilder stringBuilder = new StringBuilder();
-
-        try {
-            fis = openFileInput(FILE_NAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
+        try (FileInputStream fis = openFileInput(FILE_NAME);
+             InputStreamReader isr = new InputStreamReader(fis);
+             BufferedReader br = new BufferedReader(isr)) {
 
             String line;
             while ((line = br.readLine()) != null) {
                 stringBuilder.append(line).append("\n");
             }
-
             editTextNote.setText(stringBuilder.toString());
             Toast.makeText(this, "Wczytano z pliku " + FILE_NAME, Toast.LENGTH_SHORT).show();
+
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Błąd odczytu lub plik nie istnieje!", Toast.LENGTH_SHORT).show();
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }

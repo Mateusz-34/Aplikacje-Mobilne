@@ -35,5 +35,12 @@
             android:layout_weight="1"
             android:text="Wczytaj z pliku"
             android:layout_marginStart="5dp"/>
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Wyczyść plik"
+            android:layout_marginStart="5dp"/>
     </LinearLayout>
 </LinearLayout>
