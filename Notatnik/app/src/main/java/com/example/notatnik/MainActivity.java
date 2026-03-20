@@ -2,11 +2,11 @@ package com.example.notatnik;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
@@ -60,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadNote() {
+        File file = new File(getFilesDir(), FILE_NAME);
+        if (!file.exists()) {
+            Toast.makeText(this, "Plik nie istnieje!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         StringBuilder stringBuilder = new StringBuilder();
         try (FileInputStream fis = openFileInput(FILE_NAME);
              InputStreamReader isr = new InputStreamReader(fis);
@@ -74,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Błąd odczytu lub plik nie istnieje!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Błąd odczytu!", Toast.LENGTH_SHORT).show();
         }
     }
 }

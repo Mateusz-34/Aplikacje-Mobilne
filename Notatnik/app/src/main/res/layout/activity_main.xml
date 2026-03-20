@@ -34,7 +34,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Wczytaj z pliku"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"/>
+
         <Button
             android:id="@+id/btnClear"
             android:layout_width="0dp"
