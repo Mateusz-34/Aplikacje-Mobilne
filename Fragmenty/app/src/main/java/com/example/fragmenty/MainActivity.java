@@ -10,7 +10,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnFragment1, btnFragment2;
+    private Button btnFragment1, btnFragment2, btnFragment3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnFragment1 = findViewById(R.id.btnFragment1);
         btnFragment2 = findViewById(R.id.btnFragment2);
+        btnFragment3 = findViewById(R.id.btnFragment3);
 
         loadFragment(new FirstFragment());
 
@@ -33,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadFragment(new SecondFragment());
+            }
+        });
+
+        btnFragment3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new ThirdFragment());
             }
         });
     }
