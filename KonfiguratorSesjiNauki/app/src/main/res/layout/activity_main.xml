@@ -21,6 +21,13 @@
         android:text="Przypomnienia"
         android:textSize="18sp" />
 
+    <Switch
+        android:id="@+id/switchAdaptiveBreak"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tryb adaptacyjnej przerwy"
+        android:textSize="18sp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,5 +58,6 @@
         android:background="#EEEEEE"
         android:text="Podsumowanie"
         android:textSize="16sp" />
+
 
 </LinearLayout>

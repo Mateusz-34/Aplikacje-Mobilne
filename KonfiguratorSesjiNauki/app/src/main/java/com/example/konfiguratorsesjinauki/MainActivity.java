@@ -18,10 +18,12 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_REMINDERS = "RemindersEnabled";
     private static final String KEY_SESSION_MINUTES = "SessionMinutes";
     private static final String KEY_HISTORY = "SessionHistory";
+    private static final String KEY_ADAPTIVE_BREAK = "AdaptiveBreak";
 
     private static final int DEFAULT_SESSION_MINUTES = 45;
 
     private Switch switchReminders;
+    private Switch switchAdaptiveBreak;
     private SeekBar seekBarSession;
     private TextView tvSessionValue;
     private TextView tvSummary;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         switchReminders = findViewById(R.id.switchReminders);
+        switchAdaptiveBreak = findViewById(R.id.switchAdaptiveBreak);
         seekBarSession = findViewById(R.id.seekBarSession);
         tvSessionValue = findViewById(R.id.tvSessionValue);
         tvSummary = findViewById(R.id.tvSummary);
@@ -47,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
     private void setupListeners() {
         switchReminders.setOnCheckedChangeListener((buttonView, isChecked) -> {
             saveBoolean(KEY_REMINDERS, isChecked);
+            updateSummary();
+        });
+
+        switchAdaptiveBreak.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            saveBoolean(KEY_ADAPTIVE_BREAK, isChecked);
             updateSummary();
         });
 
@@ -78,9 +86,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadSettings() {
         boolean remindersEnabled = sharedPreferences.getBoolean(KEY_REMINDERS, true);
+        boolean adaptiveBreak = sharedPreferences.getBoolean(KEY_ADAPTIVE_BREAK, false);
         int sessionMinutes = sharedPreferences.getInt(KEY_SESSION_MINUTES, DEFAULT_SESSION_MINUTES);
 
         switchReminders.setChecked(remindersEnabled);
+        switchAdaptiveBreak.setChecked(adaptiveBreak);
         seekBarSession.setProgress(minutesToProgress(sessionMinutes));
 
         updateSessionLabel(sessionMinutes);
@@ -132,17 +142,21 @@ public class MainActivity extends AppCompatActivity {
         return sum / parts.length;
     }
 
+    private int getAdaptiveBreak(int minutes) {
+        return (int) Math.ceil(minutes * 0.2);
+    }
+
     private void updateSessionLabel(int minutes) {
         tvSessionValue.setText(String.format(Locale.getDefault(), "%d min", minutes));
     }
 
     private void updateSummary() {
         boolean reminders = switchReminders.isChecked();
+        boolean adaptive = switchAdaptiveBreak.isChecked();
         int minutes = progressToMinutes(seekBarSession.getProgress());
         int average = getAverage();
 
         String history = sharedPreferences.getString(KEY_HISTORY, "-");
-
         String reminderText = reminders ? "włączone" : "wyłączone";
 
         String summary = "Plan sesji:\n"
@@ -150,6 +164,11 @@ public class MainActivity extends AppCompatActivity {
                 + "• Przypomnienia: " + reminderText + "\n"
                 + "• Historia: " + history + "\n"
                 + "• Średnia: " + average;
+
+        if (adaptive) {
+            int breakTime = getAdaptiveBreak(minutes);
+            summary += "\n• Rekomendowana przerwa: " + breakTime + " min";
+        }
 
         tvSummary.setText(summary);
 
