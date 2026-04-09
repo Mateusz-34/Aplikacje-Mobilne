@@ -2,7 +2,6 @@ package com.example.konfiguratorsesjinauki;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.SeekBar;
@@ -14,13 +13,8 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String PREFS_NAME = "StudySessionPrefs";
-    private static final String KEY_REMINDERS = "RemindersEnabled";
-    private static final String KEY_SESSION_MINUTES = "SessionMinutes";
     private static final String KEY_HISTORY = "SessionHistory";
     private static final String KEY_ADAPTIVE_BREAK = "AdaptiveBreak";
-
-    private static final int DEFAULT_SESSION_MINUTES = 45;
 
     private Switch switchReminders;
     private Switch switchAdaptiveBreak;
@@ -28,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvSessionValue;
     private TextView tvSummary;
 
-    private SharedPreferences sharedPreferences;
+    private SessionPreferencesHelper prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         tvSessionValue = findViewById(R.id.tvSessionValue);
         tvSummary = findViewById(R.id.tvSummary);
 
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        prefs = new SessionPreferencesHelper(this);
 
         loadSettings();
         setupListeners();
@@ -49,12 +43,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupListeners() {
         switchReminders.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            saveBoolean(KEY_REMINDERS, isChecked);
+            prefs.saveRemindersEnabled(isChecked);
             updateSummary();
         });
 
         switchAdaptiveBreak.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            saveBoolean(KEY_ADAPTIVE_BREAK, isChecked);
+            prefs.getSharedPreferences().edit().putBoolean(KEY_ADAPTIVE_BREAK, isChecked).apply();
             updateSummary();
         });
 
@@ -73,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 int minutes = progressToMinutes(seekBar.getProgress());
 
-                saveInt(KEY_SESSION_MINUTES, minutes);
+                prefs.saveSessionMinutes(minutes);
                 updateHistory(minutes);
 
                 if (minutes > 70 && !switchReminders.isChecked()) {
@@ -85,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadSettings() {
-        boolean remindersEnabled = sharedPreferences.getBoolean(KEY_REMINDERS, true);
-        boolean adaptiveBreak = sharedPreferences.getBoolean(KEY_ADAPTIVE_BREAK, false);
-        int sessionMinutes = sharedPreferences.getInt(KEY_SESSION_MINUTES, DEFAULT_SESSION_MINUTES);
+        boolean remindersEnabled = prefs.loadRemindersEnabled();
+        boolean adaptiveBreak = prefs.getSharedPreferences().getBoolean(KEY_ADAPTIVE_BREAK, false);
+        int sessionMinutes = prefs.loadSessionMinutes();
 
         switchReminders.setChecked(remindersEnabled);
         switchAdaptiveBreak.setChecked(adaptiveBreak);
@@ -107,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateHistory(int minutes) {
-        String history = sharedPreferences.getString(KEY_HISTORY, "");
+        String history = prefs.getSharedPreferences().getString(KEY_HISTORY, "");
 
         if (!history.isEmpty()) {
             history += "," + minutes;
@@ -125,11 +119,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        sharedPreferences.edit().putString(KEY_HISTORY, history).apply();
+        prefs.getSharedPreferences().edit().putString(KEY_HISTORY, history).apply();
     }
 
     private int getAverage() {
-        String history = sharedPreferences.getString(KEY_HISTORY, "");
+        String history = prefs.getSharedPreferences().getString(KEY_HISTORY, "");
         if (history.isEmpty()) return 0;
 
         String[] parts = history.split(",");
@@ -156,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         int minutes = progressToMinutes(seekBarSession.getProgress());
         int average = getAverage();
 
-        String history = sharedPreferences.getString(KEY_HISTORY, "-");
+        String history = prefs.getSharedPreferences().getString(KEY_HISTORY, "-");
         String reminderText = reminders ? "włączone" : "wyłączone";
 
         String summary = "Plan sesji:\n"
@@ -187,13 +181,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         tvSummary.setTextColor(Color.RED);
-    }
-
-    private void saveBoolean(String key, boolean value) {
-        sharedPreferences.edit().putBoolean(key, value).apply();
-    }
-
-    private void saveInt(String key, int value) {
-        sharedPreferences.edit().putInt(key, value).apply();
     }
 }
