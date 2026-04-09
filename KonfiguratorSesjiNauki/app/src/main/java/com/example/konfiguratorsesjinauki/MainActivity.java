@@ -3,8 +3,8 @@ package com.example.konfiguratorsesjinauki;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -152,6 +152,22 @@ public class MainActivity extends AppCompatActivity {
                 + "• Średnia: " + average;
 
         tvSummary.setText(summary);
+
+        setLoadColor(minutes);
+    }
+
+    private void setLoadColor(int minutes) {
+        if (minutes <= 35) {
+            tvSummary.setTextColor(Color.GREEN);
+            return;
+        }
+
+        if (minutes <= 60) {
+            tvSummary.setTextColor(Color.rgb(255, 165, 0));
+            return;
+        }
+
+        tvSummary.setTextColor(Color.RED);
     }
 
     private void saveBoolean(String key, boolean value) {
