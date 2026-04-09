@@ -8,6 +8,7 @@ import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -64,7 +65,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                saveInt(KEY_SESSION_MINUTES, progressToMinutes(seekBar.getProgress()));
+                int minutes = progressToMinutes(seekBar.getProgress());
+                saveInt(KEY_SESSION_MINUTES, minutes);
+
+                if (minutes > 70 && !switchReminders.isChecked()) {
+                    Toast.makeText(MainActivity.this, "UWAGA!", Toast.LENGTH_SHORT).show();
+                    switchReminders.setChecked(true);
+                }
+
+                saveBoolean(KEY_REMINDERS, switchReminders.isChecked());
             }
         });
     }
@@ -107,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         String summary = "Plan sesji:\n"
                 + "• Czas: " + minutes + " min\n"
                 + "• Przypomnienia: " + reminderText + "\n"
-                + "• Punkty skupienia: " + points;
+                + "• Punkty skupienia: " + points + "\n";
 
         tvSummary.setText(summary);
     }
