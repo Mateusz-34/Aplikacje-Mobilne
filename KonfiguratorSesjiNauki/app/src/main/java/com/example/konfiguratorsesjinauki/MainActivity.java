@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "StudySessionPrefs";
     private static final String KEY_REMINDERS = "RemindersEnabled";
     private static final String KEY_SESSION_MINUTES = "SessionMinutes";
+    private static final String KEY_HISTORY = "SessionHistory";
 
     private static final int DEFAULT_SESSION_MINUTES = 45;
 
@@ -44,12 +45,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        switchReminders.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                saveBoolean(KEY_REMINDERS, isChecked);
-                updateSummary();
-            }
+        switchReminders.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            saveBoolean(KEY_REMINDERS, isChecked);
+            updateSummary();
         });
 
         seekBarSession.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -66,14 +64,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 int minutes = progressToMinutes(seekBar.getProgress());
+
                 saveInt(KEY_SESSION_MINUTES, minutes);
+                updateHistory(minutes);
 
                 if (minutes > 70 && !switchReminders.isChecked()) {
-                    Toast.makeText(MainActivity.this, "UWAGA!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "UWAGA! Włączono przypomnienia.", Toast.LENGTH_SHORT).show();
                     switchReminders.setChecked(true);
                 }
-
-                saveBoolean(KEY_REMINDERS, switchReminders.isChecked());
             }
         });
     }
@@ -98,9 +96,40 @@ public class MainActivity extends AppCompatActivity {
         return (clamped - 15) / 5;
     }
 
-    private int calculateFocusPoints(int minutes, boolean remindersEnabled) {
-        int base = minutes / 5;
-        return remindersEnabled ? base + 2 : base;
+    private void updateHistory(int minutes) {
+        String history = sharedPreferences.getString(KEY_HISTORY, "");
+
+        if (!history.isEmpty()) {
+            history += "," + minutes;
+        } else {
+            history = String.valueOf(minutes);
+        }
+
+        String[] parts = history.split(",");
+
+        if (parts.length > 5) {
+            history = "";
+            for (int i = parts.length - 5; i < parts.length; i++) {
+                history += parts[i];
+                if (i < parts.length - 1) history += ",";
+            }
+        }
+
+        sharedPreferences.edit().putString(KEY_HISTORY, history).apply();
+    }
+
+    private int getAverage() {
+        String history = sharedPreferences.getString(KEY_HISTORY, "");
+        if (history.isEmpty()) return 0;
+
+        String[] parts = history.split(",");
+        int sum = 0;
+
+        for (String p : parts) {
+            sum += Integer.parseInt(p);
+        }
+
+        return sum / parts.length;
     }
 
     private void updateSessionLabel(int minutes) {
@@ -110,13 +139,17 @@ public class MainActivity extends AppCompatActivity {
     private void updateSummary() {
         boolean reminders = switchReminders.isChecked();
         int minutes = progressToMinutes(seekBarSession.getProgress());
-        int points = calculateFocusPoints(minutes, reminders);
+        int average = getAverage();
+
+        String history = sharedPreferences.getString(KEY_HISTORY, "-");
 
         String reminderText = reminders ? "włączone" : "wyłączone";
+
         String summary = "Plan sesji:\n"
                 + "• Czas: " + minutes + " min\n"
                 + "• Przypomnienia: " + reminderText + "\n"
-                + "• Punkty skupienia: " + points + "\n";
+                + "• Historia: " + history + "\n"
+                + "• Średnia: " + average;
 
         tvSummary.setText(summary);
     }
