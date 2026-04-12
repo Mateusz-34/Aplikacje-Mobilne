@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">WyborImienia</string>
+        <string-array name="name_array">
+            <item>Anna</item>
+            <item>Piotr</item>
+            <item>Krzysztof </item>
+            <item>Katarzyna</item>
+            <item>Małgorzata</item>
+            <item>Maria</item>
+            <item>Agnieszka</item>
+            <item>Tomasz</item>
+            <item>Andrzej</item>
+            <item>Paweł</item>
+            <item>Michał</item>
+            <item>Ewa</item>
+            <item>Barbara</item>
+            <item>Jan</item>
+            <item>Marcin</item>
+        </string-array>
+</resources>
