@@ -12,8 +12,8 @@
         android:textSize="18sp"
         android:layout_marginBottom="10dp"/>
 
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteCountry"
+    <MultiAutoCompleteTextView
+        android:id="@+id/multiAutoComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Zacznij wpisywać imie..."
