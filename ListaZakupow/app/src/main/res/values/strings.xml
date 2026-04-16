@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lista zakupów</string>
+    <string name="hint_name">Wpisz nazwę produktu...</string>
+    <string name="hint_qty">Ilość</string>
+    <string name="add">DODAJ</string>
+    <string name="clear">WYCZYŚĆ LISTĘ</string>
+    <string name="err_name">Nazwa produktu nie może być pusta</string>
+    <string name="err_qty">Ilość musi być większa od zera</string>
+    <string name="dialog">Czy na pewno chcesz usunąć wszystkie produkty?</string>
+    <string name="yes">TAK</string>
+    <string name="cancel">ANULUJ</string>
+    <string name="qty_text">Ilość: %1$d</string>
+</resources>
