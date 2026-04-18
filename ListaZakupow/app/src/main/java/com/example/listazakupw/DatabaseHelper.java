@@ -14,24 +14,31 @@ import java.util.*;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context c) {
-        super(c, "products.db", null, 1);
+        super(c, "products.db", null, 2); // wersja 2 = brak crasha po zmianie bazy
     }
 
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE products(_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, quantity INTEGER)");
+        db.execSQL("CREATE TABLE products (" +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "name TEXT NOT NULL, " +
+                "quantity INTEGER NOT NULL, " +
+                "category TEXT DEFAULT 'Inne')");
     }
 
-    public void onUpgrade(SQLiteDatabase db, int a, int b) {}
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS products");
+        onCreate(db);
+    }
 
-    public void add(String name, int qty) {
-        SQLiteDatabase db = getWritableDatabase();
+    public void add(String name, int quantity, String category) {
         ContentValues v = new ContentValues();
         v.put("name", name);
-        v.put("quantity", qty);
-        db.insert("products", null, v);
+        v.put("quantity", quantity);
+        v.put("category", category);
+        getWritableDatabase().insert("products", null, v);
     }
 
-    public List<Product> getAllProducts() {
+    public List<Product> getAll() {
         List<Product> list = new ArrayList<>();
         Cursor c = getReadableDatabase().rawQuery("SELECT * FROM products", null);
 
@@ -39,12 +46,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             list.add(new Product(
                     c.getInt(0),
                     c.getString(1),
-                    c.getInt(2)
+                    c.getInt(2),
+                    c.getString(3)
             ));
         }
-
         c.close();
         return list;
+    }
+
+    public void delete(int id) {
+        getWritableDatabase().delete("products", "_id=?", new String[]{String.valueOf(id)});
     }
 
     public void clear() {

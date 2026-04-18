@@ -8,67 +8,64 @@ import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    DatabaseHelper databaseHelper;
+    DatabaseHelper db;
     ProductAdapter adapter;
-    List<Product> productList;
-
-    EditText productNameInput, quantityInput;
-    Button addProductButton, clearListButton;
-    RecyclerView productsRecyclerView;
+    List<Product> list;
 
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_main);
 
-        productNameInput = findViewById(R.id.productNameInput);
-        quantityInput = findViewById(R.id.quantityInput);
-        addProductButton = findViewById(R.id.addProductButton);
-        clearListButton = findViewById(R.id.clearListButton);
-        productsRecyclerView = findViewById(R.id.productsRecyclerView);
+        EditText name = findViewById(R.id.etProductName);
+        EditText qty = findViewById(R.id.etProductQuantity);
+        Spinner spinner = findViewById(R.id.spinnerCategory);
+        Button add = findViewById(R.id.btnAdd);
+        Button clear = findViewById(R.id.btnClear);
+        RecyclerView rv = findViewById(R.id.rvProducts);
 
-        databaseHelper = new DatabaseHelper(this);
+        db = new DatabaseHelper(this);
+        list = db.getAll();
 
-        productList = databaseHelper.getAllProducts();
-        adapter = new ProductAdapter(productList);
+        adapter = new ProductAdapter(list, db);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setAdapter(adapter);
 
-        productsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        productsRecyclerView.setAdapter(adapter);
+        add.setOnClickListener(v -> {
+            String n = name.getText().toString();
+            String q = qty.getText().toString();
+            String c = spinner.getSelectedItem().toString();
 
-        addProductButton.setOnClickListener(v -> {
-            String name = productNameInput.getText().toString();
-            String qty = quantityInput.getText().toString();
-
-            if (name.isEmpty()) {
-                Toast.makeText(this, R.string.err_name, Toast.LENGTH_SHORT).show();
+            if (n.isEmpty()) {
+                Toast.makeText(this, "Nazwa produktu nie może być pusta", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (qty.isEmpty() || Integer.parseInt(qty) <= 0) {
-                Toast.makeText(this, R.string.err_qty, Toast.LENGTH_SHORT).show();
+            if (q.isEmpty() || Integer.parseInt(q) <= 0) {
+                Toast.makeText(this, "Ilość musi być większa od zera", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            databaseHelper.add(name, Integer.parseInt(qty));
+            db.add(n, Integer.parseInt(q), c);
             refresh();
 
-            productNameInput.setText("");
-            quantityInput.setText("");
+            name.setText("");
+            qty.setText("");
         });
 
-        clearListButton.setOnClickListener(v -> {
+        clear.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
-                    .setMessage(R.string.dialog)
+                    .setMessage(R.string.delete_confirm)
                     .setPositiveButton(R.string.yes, (d,i)->{
-                        databaseHelper.clear();
+                        db.clear();
                         refresh();
                     })
-                    .setNegativeButton(R.string.cancel, null)
+                    .setNegativeButton(R.string.no, null)
                     .show();
         });
     }
 
     void refresh() {
-        productList = databaseHelper.getAllProducts();
-        adapter.setList(productList);
+        list = db.getAll();
+        adapter.setList(list);
     }
 }
