@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            db.add(n, Integer.parseInt(q), c);
+            db.insertProduct(n, Integer.parseInt(q), c);
             refresh();
 
             name.setText("");

@@ -14,19 +14,8 @@ public class Product {
         this.category = category;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public String getCategory() {
-        return category;
-    }
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public int getQuantity() { return quantity; }
+    public String getCategory() { return category; }
 }

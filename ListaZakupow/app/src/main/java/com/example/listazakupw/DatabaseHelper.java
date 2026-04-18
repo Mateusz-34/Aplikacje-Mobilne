@@ -19,18 +19,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE products (" +
-                "_id INTEGER PRIMARY KEY, " +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT NOT NULL, " +
                 "quantity INTEGER NOT NULL, " +
                 "category TEXT DEFAULT 'Inne')");
     }
 
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldV, int newV) {
         db.execSQL("DROP TABLE IF EXISTS products");
         onCreate(db);
     }
 
-    public void add(String name, int quantity, String category) {
+    public void insertProduct(String name, int quantity, String category) {
         ContentValues v = new ContentValues();
         v.put("name", name);
         v.put("quantity", quantity);

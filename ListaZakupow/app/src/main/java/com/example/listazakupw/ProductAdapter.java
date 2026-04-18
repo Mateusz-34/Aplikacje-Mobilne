@@ -21,22 +21,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
     }
 
     public VH onCreateViewHolder(ViewGroup p, int v) {
-        View view = LayoutInflater.from(p.getContext())
-                .inflate(R.layout.item_product, p, false);
-        return new VH(view);
+        return new VH(LayoutInflater.from(p.getContext()).inflate(R.layout.item_product, p, false));
     }
 
     public void onBindViewHolder(VH h, int i) {
         Product p = list.get(i);
 
-        h.name.setText(p.name);
-        h.qty.setText("Ilość: " + p.quantity);
-        h.category.setText(p.category);
+        h.name.setText(p.getName());
+        h.qty.setText("Ilość: " + p.getQuantity());
+        h.category.setText(p.getCategory());
 
         h.delete.setOnClickListener(v -> {
             int pos = h.getAdapterPosition();
             if (pos != RecyclerView.NO_POSITION) {
-                db.delete(list.get(pos).id);
+                db.delete(list.get(pos).getId());
                 list.remove(pos);
                 notifyItemRemoved(pos);
             }
