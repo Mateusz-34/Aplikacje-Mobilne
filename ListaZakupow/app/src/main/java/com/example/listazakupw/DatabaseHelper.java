@@ -14,12 +14,12 @@ import java.util.*;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context c) {
-        super(c, "products.db", null, 2); // wersja 2 = brak crasha po zmianie bazy
+        super(c, "products.db", null, 2);
     }
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE products (" +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "_id INTEGER PRIMARY KEY, " +
                 "name TEXT NOT NULL, " +
                 "quantity INTEGER NOT NULL, " +
                 "category TEXT DEFAULT 'Inne')");
