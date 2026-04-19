@@ -10,6 +10,8 @@
     <string name="yes">TAK</string>
     <string name="no">ANULUJ</string>
     <string name="qty_text">Ilość: %1$d</string>
+    <string name="err_name">Nazwa produktu nie może być pusta</string>
+    <string name="err_qty">Ilość musi być większa od zera</string>
     <string name="delete">Usuń</string>
 
     <string-array name="product_categories">

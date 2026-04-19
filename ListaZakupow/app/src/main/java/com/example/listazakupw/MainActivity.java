@@ -36,16 +36,24 @@ public class MainActivity extends AppCompatActivity {
             String c = spinner.getSelectedItem().toString();
 
             if (n.isEmpty()) {
-                Toast.makeText(this, "Nazwa produktu nie może być pusta", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.err_name, Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (q.isEmpty() || Integer.parseInt(q) <= 0) {
-                Toast.makeText(this, "Ilość musi być większa od zera", Toast.LENGTH_SHORT).show();
+            int quantity;
+            try {
+                quantity = Integer.parseInt(q);
+            } catch (Exception e) {
+                Toast.makeText(this, R.string.err_qty, Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            db.insertProduct(n, Integer.parseInt(q), c);
+            if (quantity <= 0) {
+                Toast.makeText(this, R.string.err_qty, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            db.insertProduct(n, quantity, c);
             refresh();
 
             name.setText("");
