@@ -28,12 +28,13 @@
             app:layout_constraintEnd_toStartOf="@id/btnDelete"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/btnDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/delete"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/ic_menu_delete"
             android:backgroundTint="@color/buttonRed"
+            android:contentDescription="@string/delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 

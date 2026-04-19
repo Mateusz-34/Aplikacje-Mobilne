@@ -51,7 +51,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
 
     static class VH extends RecyclerView.ViewHolder {
         TextView name, qty, category;
-        Button delete;
+        ImageButton delete;
 
         VH(View v) {
             super(v);
