@@ -8,11 +8,15 @@ import java.util.*;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
 
     List<Product> list;
-    DatabaseHelper db;
+    OnDeleteClickListener listener;
 
-    public ProductAdapter(List<Product> list, DatabaseHelper db) {
+    public interface OnDeleteClickListener {
+        void onDeleteClick(Product product);
+    }
+
+    public ProductAdapter(List<Product> list, OnDeleteClickListener listener) {
         this.list = list;
-        this.db = db;
+        this.listener = listener;
     }
 
     public void setList(List<Product> list) {
@@ -20,8 +24,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
         notifyDataSetChanged();
     }
 
-    public VH onCreateViewHolder(ViewGroup p, int v) {
-        return new VH(LayoutInflater.from(p.getContext()).inflate(R.layout.item_product, p, false));
+    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_product, parent, false);
+        return new VH(v);
     }
 
     public void onBindViewHolder(VH holder, int position) {
@@ -34,14 +40,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
         holder.delete.setOnClickListener(v -> {
             int pos = holder.getAdapterPosition();
             if (pos != RecyclerView.NO_POSITION) {
-                db.delete(list.get(pos).getId());
-                list.remove(pos);
-                notifyItemRemoved(pos);
+                listener.onDeleteClick(list.get(pos));
             }
         });
     }
 
-    public int getItemCount() { return list.size(); }
+    public int getItemCount() {
+        return list.size();
+    }
 
     static class VH extends RecyclerView.ViewHolder {
         TextView name, qty, category;

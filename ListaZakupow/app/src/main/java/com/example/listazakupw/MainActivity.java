@@ -26,12 +26,15 @@ public class MainActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
         list = db.getAllProducts();
 
-        adapter = new ProductAdapter(list, db);
+        adapter = new ProductAdapter(list, product -> {
+            db.delete(product.getId());
+            refresh();
+        });
+
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
         add.setOnClickListener(v -> {
-
             String n = name.getText().toString();
             String q = qty.getText().toString();
             String c = spinner.getSelectedItem().toString();
@@ -54,10 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            Product product = new Product(0, n, quantity, c);
-
-            db.insertProduct(product.getName(), product.getQuantity(), product.getCategory());
-
+            db.insertProduct(n, quantity, c);
             refresh();
 
             name.setText("");
