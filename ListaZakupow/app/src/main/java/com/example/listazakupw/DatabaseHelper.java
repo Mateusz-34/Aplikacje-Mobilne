@@ -38,20 +38,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         getWritableDatabase().insert("products", null, v);
     }
 
-    public List<Product> getAll() {
-        List<Product> list = new ArrayList<>();
-        Cursor c = getReadableDatabase().rawQuery("SELECT * FROM products", null);
+    public List<Product> getAllProducts() {
+        List<Product> productList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM products", null);
 
-        while (c.moveToNext()) {
-            list.add(new Product(
-                    c.getInt(0),
-                    c.getString(1),
-                    c.getInt(2),
-                    c.getString(3)
-            ));
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                int quantity = cursor.getInt(2);
+                String category = cursor.getString(3);
+
+                productList.add(new Product(id, name, quantity, category));
+            } while (cursor.moveToNext());
         }
-        c.close();
-        return list;
+
+        cursor.close();
+        return productList;
     }
 
     public void delete(int id) {

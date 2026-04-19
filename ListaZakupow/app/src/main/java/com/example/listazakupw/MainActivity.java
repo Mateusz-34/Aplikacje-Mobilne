@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView rv = findViewById(R.id.rvProducts);
 
         db = new DatabaseHelper(this);
-        list = db.getAll();
+        list = db.getAllProducts();
 
         adapter = new ProductAdapter(list, db);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void refresh() {
-        list = db.getAll();
+        list = db.getAllProducts();
         adapter.setList(list);
     }
 }
