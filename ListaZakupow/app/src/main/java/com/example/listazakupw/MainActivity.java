@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
 
         add.setOnClickListener(v -> {
+
             String n = name.getText().toString();
             String q = qty.getText().toString();
             String c = spinner.getSelectedItem().toString();
@@ -53,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            db.insertProduct(n, quantity, c);
+            Product product = new Product(0, n, quantity, c);
+
+            db.insertProduct(product.getName(), product.getQuantity(), product.getCategory());
+
             refresh();
 
             name.setText("");
