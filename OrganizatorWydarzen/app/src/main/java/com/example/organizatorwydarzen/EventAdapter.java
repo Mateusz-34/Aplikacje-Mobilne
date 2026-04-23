@@ -9,6 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/*
+Imię: Jan
+Nazwisko: Kowalski
+PESEL: 12345678901
+*/
+
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
 
     ArrayList<String> lista;

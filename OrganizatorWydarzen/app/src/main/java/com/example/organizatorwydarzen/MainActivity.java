@@ -1,10 +1,13 @@
 package com.example.organizatorwydarzen;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new EventAdapter(eventList);
         recyclerView.setAdapter(adapter);
+
+        DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.divider);
+        divider.setDrawable(drawable);
+        recyclerView.addItemDecoration(divider);
 
         button.setOnClickListener(v -> {
             String text = editText.getText().toString();
