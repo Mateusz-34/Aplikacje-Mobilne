@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -23,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
     EditText editTextNewEvent;
 
+    TextView textViewCounter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnAdd = findViewById(R.id.buttonAdd);
         RecyclerView recyclerView = findViewById(R.id.recyclerViewEvents);
         Button btnClear = findViewById(R.id.btnClear);
+        textViewCounter = findViewById(R.id.textViewCounter);
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new EventAdapter(eventList);
@@ -62,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             eventList.add(0, text);
             adapter.notifyDataSetChanged();
             editTextNewEvent.setText("");
+            updateCounter();
         });
 
         btnClear.setOnClickListener(v -> {
@@ -71,10 +78,13 @@ public class MainActivity extends AppCompatActivity {
             builder.setPositiveButton("TAK", (dialog, which) -> {
                 eventList.clear();
                 adapter.notifyDataSetChanged();
+                updateCounter();
             });
             builder.setNegativeButton("NIE", null);
             builder.show();
         });
+
+        updateCounter();
     }
 
     @Override
@@ -85,5 +95,9 @@ public class MainActivity extends AppCompatActivity {
         String draftText = editTextNewEvent.getText().toString();
         editor.putString("DRAFT_TEXT", draftText);
         editor.apply();
+    }
+
+    private void updateCounter() {
+        textViewCounter.setText("Liczba wydarzeń: " + eventList.size());
     }
 }

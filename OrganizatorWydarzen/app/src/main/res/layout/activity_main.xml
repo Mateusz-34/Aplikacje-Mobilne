@@ -23,7 +23,16 @@
             android:text="DODAJ"
             android:backgroundTint="@color/deep_orange"
             android:textColor="@color/white" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewCounter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Liczba wydarzeń: 0"
+        android:textSize="16sp"
+        android:padding="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewEvents"
