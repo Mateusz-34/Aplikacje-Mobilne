@@ -1,5 +1,6 @@
 package com.example.organizatorwydarzen;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Button;
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> eventList;
     EventAdapter adapter;
 
+    EditText editTextNewEvent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         eventList.add("Spotkanie organizacyjne");
         eventList.add("Warsztaty Android");
 
-        EditText editText = findViewById(R.id.editTextEvent);
+        EditText editTextNewEvent = findViewById(R.id.editTextNewEvent);
         Button btnAdd = findViewById(R.id.buttonAdd);
         RecyclerView recyclerView = findViewById(R.id.recyclerViewEvents);
         Button btnClear = findViewById(R.id.btnClear);
@@ -43,11 +46,15 @@ public class MainActivity extends AppCompatActivity {
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
 
+        SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        String draft = prefs.getString("DRAFT_TEXT", "");
+        editTextNewEvent.setText(draft);
+
         btnAdd.setOnClickListener(v -> {
-            String text = editText.getText().toString();
+            String text = editTextNewEvent.getText().toString();
             eventList.add(0, text);
             adapter.notifyDataSetChanged();
-            editText.setText("");
+            editTextNewEvent.setText("");
         });
 
         btnClear.setOnClickListener(v -> {
@@ -61,5 +68,15 @@ public class MainActivity extends AppCompatActivity {
             builder.setNegativeButton("NIE", null);
             builder.show();
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        String draftText = editTextNewEvent.getText().toString();
+        editor.putString("DRAFT_TEXT", draftText);
+        editor.apply();
     }
 }
