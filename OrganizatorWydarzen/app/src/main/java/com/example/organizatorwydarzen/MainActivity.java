@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
         btnAdd.setOnClickListener(v -> {
             String text = editTextNewEvent.getText().toString();
+
+            if (text.isEmpty()) {
+                Toast.makeText(this, "Wydarzenie nie może być puste!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             eventList.add(0, text);
             adapter.notifyDataSetChanged();
             editTextNewEvent.setText("");
