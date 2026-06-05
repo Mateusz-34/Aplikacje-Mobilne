@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new EventAdapter(eventList);
+        adapter = new EventAdapter(this, eventList);
         recyclerView.setAdapter(adapter);
 
         DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);

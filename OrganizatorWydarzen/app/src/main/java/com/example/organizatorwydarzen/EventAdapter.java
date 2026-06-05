@@ -1,9 +1,11 @@
 package com.example.organizatorwydarzen;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,17 +20,25 @@ PESEL: 12345678901
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
 
     ArrayList<String> lista;
+    private Context context;
 
-    public EventAdapter(ArrayList<String> lista) {
+    public EventAdapter(Context context, ArrayList<String> lista) {
+        this.context = context;
         this.lista = lista;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView text;
 
         public ViewHolder(View itemView) {
             super(itemView);
             text = itemView.findViewById(R.id.textViewEvent);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                String wydarzenie = lista.get(position);
+                Toast.makeText(context, "Kliknięto: " + wydarzenie, Toast.LENGTH_SHORT).show();
+            });
         }
     }
 
