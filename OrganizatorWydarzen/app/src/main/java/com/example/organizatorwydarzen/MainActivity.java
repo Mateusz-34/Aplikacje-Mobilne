@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -29,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
         eventList.add("Warsztaty Android");
 
         EditText editText = findViewById(R.id.editTextEvent);
-        Button button = findViewById(R.id.buttonAdd);
+        Button btnAdd = findViewById(R.id.buttonAdd);
         RecyclerView recyclerView = findViewById(R.id.recyclerViewEvents);
+        Button btnClear = findViewById(R.id.btnClear);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new EventAdapter(eventList);
@@ -41,11 +43,23 @@ public class MainActivity extends AppCompatActivity {
         divider.setDrawable(drawable);
         recyclerView.addItemDecoration(divider);
 
-        button.setOnClickListener(v -> {
+        btnAdd.setOnClickListener(v -> {
             String text = editText.getText().toString();
             eventList.add(0, text);
             adapter.notifyDataSetChanged();
             editText.setText("");
+        });
+
+        btnClear.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Czyszczenie listy");
+            builder.setMessage("Czy na pewno chcesz wyczyścić całą listę?");
+            builder.setPositiveButton("TAK", (dialog, which) -> {
+                eventList.clear();
+                adapter.notifyDataSetChanged();
+            });
+            builder.setNegativeButton("NIE", null);
+            builder.show();
         });
     }
 }
