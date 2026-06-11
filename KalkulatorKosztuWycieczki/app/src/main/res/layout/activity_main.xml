@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/editTextDays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:hint="@string/days" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioGroupTransport">
+
+        <RadioButton
+            android:id="@+id/radioOwn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/own" />
+
+        <RadioButton
+            android:id="@+id/radioBus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bus" />
+
+        <RadioButton
+            android:id="@+id/radioPlane"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/plane" />
+
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/checkBreakfast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/breakfast" />
+
+    <CheckBox
+        android:id="@+id/checkGuide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/guide" />
+
+    <Button
+        android:id="@+id/calculate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/calculate" />
+
+</LinearLayout>

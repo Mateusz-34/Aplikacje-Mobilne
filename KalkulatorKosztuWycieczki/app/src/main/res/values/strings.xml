@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Kalkulator Kosztu Wycieczki</string>
+    <string name="days">Wpisz liczbe dni pobytu: </string>
+    <string name="own">Dojazd własny (0 zł)</string>
+    <string name="bus">Autokar (100 zł)</string>
+    <string name="plane">Samolot (500 zł)</string>
+    <string name="breakfast">Śniadania (30 zł / dzień)</string>
+    <string name="guide">Przewodnik (150 zł jednorazowo)</string>
+    <string name="calculate">OBLICZ KOSZT</string>
+</resources>
