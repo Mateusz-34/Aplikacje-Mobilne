@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
                     totalCost += (30 * numberDays);
                 }
 
-                Toast.makeText(MainActivity.this, "Całkowity koszt: " + totalCost + " zł", Toast.LENGTH_LONG).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Podsumowanie wycieczki");
+                builder.setMessage("Liczba dni: " + numberDays + "\nCałkowity koszt: " + totalCost + " zł");
+                builder.setPositiveButton("OK", null);
+                builder.show();
             }
         });
     }
