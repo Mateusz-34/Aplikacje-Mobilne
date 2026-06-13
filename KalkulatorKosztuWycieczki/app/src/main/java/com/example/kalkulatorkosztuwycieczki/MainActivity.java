@@ -50,27 +50,40 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 int dayCost = 120;
-                int totalCost = numberDays * dayCost;
+                int baseCost = numberDays * dayCost;
+                int totalCost = baseCost;
+
+                StringBuilder messageBuilder = new StringBuilder();
+                messageBuilder.append("Liczba dni: ").append(numberDays).append("\n");
+                messageBuilder.append("Koszt bazowy: ").append(baseCost).append(" zł\n");
 
                 if (selectedId == R.id.radioBus) {
                     totalCost += 100;
+                    messageBuilder.append("Transport: Autokar (+100 zł)\n");
                 } else if (selectedId == R.id.radioPlane) {
                     totalCost += 500;
+                    messageBuilder.append("Transport: Samolot (+500 zł)\n");
                 } else if (selectedId == R.id.radioOwn) {
-                    totalCost += 0;
+                    messageBuilder.append("Transport: Dojazd własny (+0 zł)\n");
                 }
 
                 if (guide.isChecked()) {
                     totalCost += 150;
+                    messageBuilder.append("Przewodnik: (+150 zł)\n");
                 }
 
                 if (breakfast.isChecked()) {
-                    totalCost += (30 * numberDays);
+                    int breakfastCost = 30 * numberDays;
+                    totalCost += breakfastCost;
+                    messageBuilder.append("Śniadania: (+").append(breakfastCost).append(" zł)\n");
                 }
+
+                messageBuilder.append("──────────────────\n");
+                messageBuilder.append("ŁĄCZNIE: ").append(totalCost).append(" zł");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Podsumowanie wycieczki");
-                builder.setMessage("Liczba dni: " + numberDays + "\nCałkowity koszt: " + totalCost + " zł");
+                builder.setMessage(messageBuilder.toString());
                 builder.setPositiveButton("OK", null);
                 builder.show();
             }
