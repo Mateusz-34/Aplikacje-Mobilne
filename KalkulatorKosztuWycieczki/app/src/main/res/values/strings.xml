@@ -7,4 +7,5 @@
     <string name="breakfast">Śniadania (30 zł / dzień)</string>
     <string name="guide">Przewodnik (150 zł jednorazowo)</string>
     <string name="calculate">OBLICZ KOSZT</string>
+    <string name="reset">RESETUJ</string>
 </resources>

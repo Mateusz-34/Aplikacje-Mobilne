@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         CheckBox breakfast = findViewById(R.id.checkBreakfast);
         CheckBox guide = findViewById(R.id.checkGuide);
         Button calculate = findViewById(R.id.calculate);
+        Button reset = findViewById(R.id.reset);
 
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +73,17 @@ public class MainActivity extends AppCompatActivity {
                 builder.setMessage("Liczba dni: " + numberDays + "\nCałkowity koszt: " + totalCost + " zł");
                 builder.setPositiveButton("OK", null);
                 builder.show();
+            }
+        });
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                days.setText("");
+                radioGroupTransport.clearCheck();
+                breakfast.setChecked(false);
+                guide.setChecked(false);
+                Toast.makeText(MainActivity.this, "Formularz został wyczyszczony", Toast.LENGTH_SHORT).show();
             }
         });
     }
