@@ -36,10 +36,20 @@ public class MainActivity extends AppCompatActivity {
 
                 int numberDays = Integer.parseInt(daysText);
 
-                int dayCost = 120;
-                int totalCost = numberDays * dayCost;
+                if (numberDays < 1 || numberDays > 30) {
+                    Toast.makeText(MainActivity.this, "Liczba dni musi wynosić od 1 do 30!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 int selectedId = radioGroupTransport.getCheckedRadioButtonId();
+
+                if (selectedId == -1) {
+                    Toast.makeText(MainActivity.this, "Wybierz rodzaj transportu!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                int dayCost = 120;
+                int totalCost = numberDays * dayCost;
 
                 if (selectedId == R.id.radioBus) {
                     totalCost += 100;
@@ -47,9 +57,6 @@ public class MainActivity extends AppCompatActivity {
                     totalCost += 500;
                 } else if (selectedId == R.id.radioOwn) {
                     totalCost += 0;
-                } else {
-                    Toast.makeText(MainActivity.this, "Wybierz rodzaj transportu!", Toast.LENGTH_SHORT).show();
-                    return;
                 }
 
                 if (guide.isChecked()) {
