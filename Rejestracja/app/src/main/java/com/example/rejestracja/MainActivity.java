@@ -4,71 +4,46 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.regex.Pattern;
-
 public class MainActivity extends AppCompatActivity {
-    private static final Pattern PASSWORD_PATTERN = Pattern.compile(
-            "^" +
-                    "(?=.*[0-9])" +
-                    "(?=.*[a-z])" +
-                    "(?=.*[A-Z])" +
-                    "(?=.*[@#$%^&+=!._-])" +
-                    "(?=\\S+$)" +
-                    ".{16,}" +
-                    "$"
-    );
+
+    private EditText editTextEmail;
+    private EditText editTextPassword1;
+    private EditText editTextPassword2;
+    private TextView textViewMessage;
+
+    private Button buttonSubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EditText editTextName = findViewById(R.id.editTextName);
-        EditText editTextSurname = findViewById(R.id.editTextSurname);
-        EditText editTextEmail = findViewById(R.id.editTextEmail);
-        EditText editTextPassword = findViewById(R.id.editTextPassword);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword1 = findViewById(R.id.editTextPassword1);
+        editTextPassword2 = findViewById(R.id.editTextPassword2);
+        textViewMessage = findViewById(R.id.textViewMessage);
 
-        Button registerButton = findViewById(R.id.buttonRegister);
+        buttonSubmit = findViewById(R.id.buttonSubmit);
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = editTextName.getText().toString().trim();
-                String surname = editTextSurname.getText().toString().trim();
+
                 String email = editTextEmail.getText().toString().trim();
-                String password = editTextPassword.getText().toString();
+                String password1 = editTextPassword1.getText().toString().trim();
+                String password2 = editTextPassword2.getText().toString().trim();
 
-                if (name.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Proszę wprowadzić imię", Toast.LENGTH_SHORT).show();
-                    return;
+
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    textViewMessage.setText("Nieprawidłowy adres email");
+                } else if(!password1.equals(password2)) {
+                    textViewMessage.setText("Hasła się różnią");
+                } else {
+                    textViewMessage.setText("Witaj " + email);
                 }
-
-                if (surname.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Proszę wprowadzić nazwisko", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (email.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Proszę wprowadzić adres e-mail", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    Toast.makeText(MainActivity.this, "Niepoprawny adres e-mail", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (password.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Proszę wprowadzić hasło", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
-                    Toast.makeText(MainActivity.this, "Hasło musi mieć min. 16 znaków, małą i dużą literę, cyfrę oraz znak specjalny", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                Toast.makeText(MainActivity.this, "Zarejestrowałeś się", Toast.LENGTH_SHORT).show();
             }
         });
     }
