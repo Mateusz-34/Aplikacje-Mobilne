@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:padding="24dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REJESTRACJA"
+        android:layout_gravity="center"
+        android:textSize="30sp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/createaccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Utwórz nowe konto"
+        android:layout_gravity="center"
+        android:textSize="17sp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Imię"
+        android:textSize="16sp"
+        android:layout_marginTop="30dp"/>
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Wpisz imię"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/surname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nazwisko"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextSurname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Wpisz nazwisko"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="Wpisz email"
+        android:layout_marginTop="6dp"/>
+
+    <TextView
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hasło"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Wpisz hasło"
+        android:layout_marginTop="6dp"/>
+
+    <Button
+        android:id="@+id/buttonRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ZAREJESTRUJ"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp" />
+
+</LinearLayout>
