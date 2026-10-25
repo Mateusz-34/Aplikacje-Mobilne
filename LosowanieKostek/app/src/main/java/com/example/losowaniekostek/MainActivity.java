@@ -7,17 +7,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.gridlayout.widget.GridLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+
+    private List<TextView> kostkiWidoki = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editTextLiczbaKostek = findViewById(R.id.editTextLiczbaKostek);
         Button buttonLosuj = findViewById(R.id.buttonLosuj);
         TextView textViewWyniki = findViewById(R.id.textViewWyniki);
+        GridLayout gridKostki = findViewById(R.id.gridKostki);
 
         buttonLosuj.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,15 +45,32 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Podana liczba kostek to: " + liczbaKostek, Toast.LENGTH_SHORT).show();
                 }
 
+                for (int i = 0; i < kostkiWidoki.size(); i++) {
+                    TextView tv = kostkiWidoki.get(i);
+                    gridKostki.removeView(tv);
+                }
+                kostkiWidoki.clear();
+
+                gridKostki.setColumnCount(5);
+
                 List<Integer> wyniki = new ArrayList<>();
                 Random random = new Random();
 
                 for (int i = 0; i < liczbaKostek; i++) {
                     int los = random.nextInt(6) + 1;
                     wyniki.add(los);
+
+                    TextView kostka = new TextView(MainActivity.this);
+                    kostka.setText(String.valueOf(los));
+                    kostka.setTextSize(18);
+                    kostka.setPadding(16, 16, 16, 16);
+
+                    gridKostki.addView(kostka);
+                    kostkiWidoki.add(kostka);
                 }
 
-                textViewWyniki.setText("Wyniki losowania: " + wyniki.toString());
+                String listaWynikow = wyniki.toString().replace("[", "").replace("]", "");
+                textViewWyniki.setText(listaWynikow);
             }
         });
     }
