@@ -11,12 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     private List<TextView> kostkiWidoki = new ArrayList<>();
+    private List<Integer> wyniki = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonLosuj = findViewById(R.id.buttonLosuj);
         TextView textViewWyniki = findViewById(R.id.textViewWyniki);
         GridLayout gridKostki = findViewById(R.id.gridKostki);
+        Button buttonRosnaco = findViewById(R.id.buttonRosnaco);
 
         buttonLosuj.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
                     gridKostki.removeView(tv);
                 }
                 kostkiWidoki.clear();
+                wyniki.clear();
 
                 gridKostki.setColumnCount(5);
 
-                List<Integer> wyniki = new ArrayList<>();
                 Random random = new Random();
 
                 for (int i = 0; i < liczbaKostek; i++) {
@@ -71,6 +74,25 @@ public class MainActivity extends AppCompatActivity {
 
                 String listaWynikow = wyniki.toString().replace("[", "").replace("]", "");
                 textViewWyniki.setText(listaWynikow);
+            }
+        });
+
+        buttonRosnaco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (wyniki.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Najpierw wylosuj kostki!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Collections.sort(wyniki);
+
+                textViewWyniki.setText("Kostki rosnaco: " + wyniki);
+
+                for (int i = 0; i < kostkiWidoki.size(); i++) {
+                    TextView tv = kostkiWidoki.get(i);
+                    tv.setText(String.valueOf(wyniki.get(i)));
+                }
             }
         });
     }
