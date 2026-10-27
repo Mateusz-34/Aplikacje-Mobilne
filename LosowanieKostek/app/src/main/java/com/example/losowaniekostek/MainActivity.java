@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         TextView textViewWyniki = findViewById(R.id.textViewWyniki);
         GridLayout gridKostki = findViewById(R.id.gridKostki);
         Button buttonRosnaco = findViewById(R.id.buttonRosnaco);
+        Button buttonMalejaco = findViewById(R.id.buttonMalejaco);
 
         buttonLosuj.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +89,25 @@ public class MainActivity extends AppCompatActivity {
                 Collections.sort(wyniki);
 
                 textViewWyniki.setText("Kostki rosnaco: " + wyniki);
+
+                for (int i = 0; i < kostkiWidoki.size(); i++) {
+                    TextView tv = kostkiWidoki.get(i);
+                    tv.setText(String.valueOf(wyniki.get(i)));
+                }
+            }
+        });
+
+        buttonMalejaco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (wyniki.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Najpierw wylosuj kostki!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Collections.sort(wyniki, Collections.reverseOrder());
+
+                textViewWyniki.setText("Kostki malejaco: " + wyniki);
 
                 for (int i = 0; i < kostkiWidoki.size(); i++) {
                     TextView tv = kostkiWidoki.get(i);
